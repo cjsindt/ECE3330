@@ -31,7 +31,7 @@ public class PostnetEncoder {
     }
 
     /**
-     * Sets the Zip code to zip and encodes it into its Binary and POSTNET representations.
+     * Sets the Zip code to zip and calls method that encodes it into its Binary and POSTNET representations, but only if the zip code is valid.
      * @param zip   The Zip Code (ZIP, ZIP+4, ZIP+4+Delivery Code)
      */
     public void setZipCode(String zip){
@@ -44,21 +44,35 @@ public class PostnetEncoder {
     }
 
     /**
-     *
-     * @return
+     * Returns the Zip Code.
+     * @return  The Zip Code
      */
     public String getZipCode(){
         return zipCode;
     }
 
+    /**
+     * Returns the binary encoding of the Zip Code
+     * @return  binary encoding of Zip Code
+     */
     public String getBinaryEncoding(){
         return binaryEncoding;
     }
 
+    /**
+     * Returns the POSTNET barcode of the Zip Code
+     * @return  The POSTNET barcode of the Zip Code
+     */
     public String getBarEncoding(){
         return barEncoding;
     }
 
+    /**
+     * Checks if zip is a valid zip code format. Either ZIP, ZIP+4, or ZIP+4+Delivery Code
+     * i.e. 55555 / 55555-1234 / 55555-1234-99
+     * @param zip   The Zip Code
+     * @return  true if the zip code is valid, false otherwise
+     */
     public static boolean isValidZip(String zip){
 
         //null check
@@ -97,7 +111,10 @@ public class PostnetEncoder {
         return true;
     }
 
-
+    /**
+     * Encodes the ZipCode into it's Binary and POSTNET representations
+     * @param zip   the zip code
+     */
     private void encodeZipCode(String zip){
 
             //the checksum of the encoding
