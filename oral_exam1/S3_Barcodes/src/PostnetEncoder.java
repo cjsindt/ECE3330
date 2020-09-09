@@ -88,23 +88,27 @@ public class PostnetEncoder {
                             i += 1;
                             //no hyphen = invalid zip
                         } else {
+                            System.out.println("Separate the Zip from the +4 by a hyphen, same for delivery code.");
                             return false;
                         }
                     }
                     //if the character at the current index is not a digit, the zip is invalid
                     //can check every time b/c if we have a hyphen, we add one to i
                     if (!(Character.isDigit(zip.charAt(i)))) {
+                        System.out.println("Invalid character in Zip Code.");
                         return false;
                     }
                 }
             }
             //zip code is an invalid length, return false
             else {
+                System.out.println("Invalid Length.");
                 return false;
             }
 
             //zip code is null, return false
         } else{
+            System.out.println("Input is null.");
             return false;
         }
 
@@ -132,8 +136,12 @@ public class PostnetEncoder {
                 barEncoding += barEncodingChart[zip.charAt(i)-48];
             }
 
-            //checkSum value equals 10 - (the sum of the digits modulo 10)
-            checkSum = 10 - (checkSum % 10);
+            //checkSum value equals 10 - (the sum of the digits modulo 10) unless it is already 0
+            if(checkSum % 10 != 0) {
+                checkSum = 10 - (checkSum % 10);
+            } else{
+                checkSum = 0;
+            }
 
             //add the checkSum encoding to the end, plus an extra 1 or |
             binaryEncoding += binaryEncodingChart[checkSum] + "1";
