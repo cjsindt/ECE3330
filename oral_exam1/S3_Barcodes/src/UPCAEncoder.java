@@ -5,11 +5,19 @@
  **/
 public class UPCAEncoder {
 
-    private String productCode; //product code to encode into UPC-A
-    private String upca = "101"; //the binary representation of the code in UPC-A
+    /**
+     * String of the product code to encode into the UPC-A barcode format
+     */
+    private String productCode;
 
-    //double array of ints, first level array index is decimal number of code, second layer array is the bar lengths associated with that number
-    //trying to do something different from POSTNET code
+    /**
+     * The encoded UPC-A barcode from the product code
+     */
+    private String upca = "101";
+
+    /**
+     * Double  array of ints, first level array index is the decimal number for the code, second layer is the bar lengths associated with that number
+     */
     final private static int[][] barLengths = {{3, 2, 1, 1}, {2, 2, 2, 1}, {2, 1, 2, 2}, {1, 4, 1, 1}, {1, 1, 3, 2}, {1, 2, 3, 1}, {1, 1, 1, 4}, {1, 3, 1, 2}, {1, 2, 1, 3}, {3, 1, 1, 2}};
 
     /**

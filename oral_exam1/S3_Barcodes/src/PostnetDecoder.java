@@ -5,10 +5,19 @@
  */
 public class PostnetDecoder {
 
-    private String zipCode = ""; //the final zip code
-    private String binaryEncoding; //the given encoding
+    /**
+     * The resulting zip code from the decoded POSTNET code
+     */
+    private String zipCode = "";
 
-    //a chart to map binary values to decimal values based on the index
+    /**
+     * The POSTNET code to decode into a zip code
+     */
+    private String binaryEncoding;
+
+    /**
+     * An array to map binary values to decimal values based on the index
+     */
     final private static String[] zipEncodingChart = {"11000", "00011", "00101", "00110", "01001", "01010", "01100", "10001", "10010", "10100"};
 
     /**

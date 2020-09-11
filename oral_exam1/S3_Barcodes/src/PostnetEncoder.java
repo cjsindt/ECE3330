@@ -5,14 +5,29 @@
  */
 public class PostnetEncoder {
 
-    private String zipCode; //the zipcode given by the user
-    private String binaryEncoding = "1"; //the binary encoding of the zipcode, always starts with 1
-    private String barEncoding = "|"; //the bar encoding of the zipcode, always starts with |
+    /**
+     * The zipcode to encode into the POSTNET standard
+     */
+    private String zipCode;
 
-    //conversion chart from decimal to binary based on index
+    /**
+     * The POSTNET binary encoding of the zip code
+     */
+    private String binaryEncoding = "1";
+
+    /**
+     * The POSTNET bar encoding of the zip code
+     */
+    private String barEncoding = "|";
+
+    /**
+     * Conversion chart from decimal to binary based on index
+     */
     final private static String[] binaryEncodingChart = {"11000", "00011", "00101", "00110", "01001", "01010", "01100", "10001", "10010", "10100"};
 
-    //conversion chart from decimal to bars based on index
+    /**
+     * Conversion chart from decimal to bars based on index
+     */
     final private static String[] barEncodingChart = {"||...", "...||", "..|.|", "..||.", ".|..|", ".|.|.", ".||..", "|...|", "|..|.", "|.|.."};
 
     /**
