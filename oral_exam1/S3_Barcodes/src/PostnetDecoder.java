@@ -6,7 +6,7 @@
 public class PostnetDecoder {
 
     private String zipCode = ""; //the final zip code
-    private String binaryEncoding = ""; //the given encoding
+    private String binaryEncoding; //the given encoding
 
     //a chart to map binary values to decimal values based on the index
     final private static String[] zipEncodingChart = {"11000", "00011", "00101", "00110", "01001", "01010", "01100", "10001", "10010", "10100"};
@@ -19,21 +19,26 @@ public class PostnetDecoder {
     }
 
     /**
-     * Constructor that takes a binary encoding from the user
+     * Constructor that takes a binary encoding from the user and encodes it into a valid zip code
      * @param bin   a POSTNET encoded zip code in binary
      */
     public PostnetDecoder(String bin){
-        setBinaryEncoding(bin);
+        if(isValidBinaryEncoding(bin)){
+            binaryEncoding = bin;
+            encodeZip(binaryEncoding);
+        } else {
+            System.out.println("Invalid encoding, setting encoding to \"\"");
+            binaryEncoding = "";
+        }
     }
 
     /**
-     * Sets the binary encoding to the given encoding. Calls method to encode that value to a zip code if it is valid.
+     * Sets the binary encoding to the given encoding
      * @param bin   a POSTNET encoded zip code in binary
      */
     public void setBinaryEncoding(String bin){
         if(isValidBinaryEncoding(bin)) {
             binaryEncoding = bin;
-            encodeZip(bin);
         }else{
             System.out.println("Invalid Binary Encoding.");
         }

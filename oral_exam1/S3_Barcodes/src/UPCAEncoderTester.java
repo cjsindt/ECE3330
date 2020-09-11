@@ -1,8 +1,18 @@
+import java.util.Scanner;
+
 public class UPCAEncoderTester {
 
     public static void main(String[] args){
-        UPCAEncoder f = new UPCAEncoder("01254667375");
-        System.out.println("10100011010011001001001101100010100011010111101010101000010001001000010100010010011101011100101");
-        System.out.println(f.getUpca());
+        Scanner s = new Scanner(System.in);
+
+        System.out.print("Enter an 11 digit product code: ");
+
+        String input = s.nextLine();
+
+        UPCAEncoder f = new UPCAEncoder(input);
+
+        if(UPCAEncoder.isValidCode(input)) {
+            System.out.println(f.getUpca());
+        }
     }
 }

@@ -1,3 +1,8 @@
+/**
+ * Class to encode 11 digit product codes into the UPC_A barcode format.
+ * @author cjsindt
+ * @version 1.0.0 10 SEPT 2020
+ **/
 public class UPCAEncoder {
 
     private String productCode; //product code to encode into UPC-A
@@ -7,25 +12,50 @@ public class UPCAEncoder {
     //trying to do something different from POSTNET code
     final private static int[][] barLengths = {{3, 2, 1, 1}, {2, 2, 2, 1}, {2, 1, 2, 2}, {1, 4, 1, 1}, {1, 1, 3, 2}, {1, 2, 3, 1}, {1, 1, 1, 4}, {1, 3, 1, 2}, {1, 2, 1, 3}, {3, 1, 1, 2}};
 
+    /**
+     * No-Argument constructor
+     */
     public UPCAEncoder(){
         productCode = "";
     }
 
+    /**
+     * Constructor that takes an 11 digit product code and encodes it into the UPC-A barcode standard
+     * @param code  an 11 digit product code
+     */
     public UPCAEncoder(String code){
-        setProductCode(code);
+        if(isValidCode(code)){
+            productCode = code;
+            encodeToUPCA(productCode);
+        } else {
+            System.out.println("Invalid product code. Setting product code to \"\".");
+            productCode = "";
+        }
     }
 
+    /**
+     * Returns the upca code for the product code
+     * @return  the upca encoding
+     */
     public String getUpca(){
         return upca;
     }
 
+    /**
+     * Sets the product code to the given input
+     * @param code  a valid 11 digit product code
+     */
     public void setProductCode(String code){
-        if (isValidCode(code)) {
+        if(isValidCode(code)){
             productCode = code;
-            encodeToUPCA(code);
         }
     }
 
+    /**
+     * Evaluates whether a given code is a valid. (11 digits, all numerical)
+     * @param code  code to evaluate
+     * @return  true if the code is valid, false otherwise
+     */
     public static boolean isValidCode(String code){
         //null check and length check
         if(code != null && code.length() == 11){
@@ -44,6 +74,10 @@ public class UPCAEncoder {
         return true;
     }
 
+    /**
+     * Encodes the given code to the UPC-A barcode format
+     * @param code  the code to convert to UPC-A
+     */
     private void encodeToUPCA(String code){
         //store the current digit value at. Makes the code a bit easier to read
         int currDigit = 0;

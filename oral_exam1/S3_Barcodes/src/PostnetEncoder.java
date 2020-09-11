@@ -5,7 +5,7 @@
  */
 public class PostnetEncoder {
 
-    private String zipCode = ""; //the zipcode given by the user
+    private String zipCode; //the zipcode given by the user
     private String binaryEncoding = "1"; //the binary encoding of the zipcode, always starts with 1
     private String barEncoding = "|"; //the bar encoding of the zipcode, always starts with |
 
@@ -23,21 +23,26 @@ public class PostnetEncoder {
     }
 
     /**
-     * Constructor that takes a Zip Code as a parameter with hyphens separating the ZIP from the +4 and Delivery code.
+     * Constructor that takes a Zip Code as a parameter with hyphens separating the ZIP from the +4 and Delivery code and encodes it into a POSTNET bar code
      * @param zip   The Zip Code (ZIP, ZIP+4, ZIP+4+Delivery Code)
      */
     public PostnetEncoder(String zip){
-        setZipCode(zip);
+        if(isValidZip(zip)){
+            zipCode = zip;
+            encodeZipCode(zipCode);
+        } else {
+            System.out.println("Invalid zip code, setting zip code to \"\".");
+            zipCode = "";
+        }
     }
 
     /**
-     * Sets the Zip code to zip and calls method that encodes it into its Binary and POSTNET representations, but only if the zip code is valid.
+     * Sets the Zip code to zip if given a valid zip code
      * @param zip   The Zip Code (ZIP, ZIP+4, ZIP+4+Delivery Code)
      */
     public void setZipCode(String zip){
         if(isValidZip(zip)) {
             zipCode = zip;
-            encodeZipCode(zip);
         } else {
             System.out.println("Invalid Zip Code.");
         }
