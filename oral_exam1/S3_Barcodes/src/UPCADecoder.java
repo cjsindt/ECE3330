@@ -1,3 +1,8 @@
+/**
+ * This class takes a UPC-A format barcode in binary and decodes it into its respective 11 digit product code
+ * @author cjsindt
+ * @version 1.0.0 10 SEPT 2020
+ */
 public class UPCADecoder {
 
     private String upca; //given upca code to decode
@@ -6,10 +11,17 @@ public class UPCADecoder {
     final private static String[] firstHalfEncodings = {"0001101", "0011001", "0010011", "0111101", "0100011", "0110001", "0101111", "0111011", "0110111", "0001011"};
     final private static String[] secondHalfEncodings ={"1110010", "1100110", "1101100", "1000010", "1011100", "1001110", "1010000", "1000100", "1001000", "1110100"};
 
+    /**
+     * No-Argument constructor
+     */
     public UPCADecoder(){
         upca = "";
     }
 
+    /**
+     * Constructor that takes a code from the user and decodes it if it is valid
+     * @param code  a UPC-A code
+     */
     public UPCADecoder(String code){
         if(isValidCode(code)){
             upca = code;
@@ -20,16 +32,29 @@ public class UPCADecoder {
         }
     }
 
+    /**
+     * Sets the upca code to input
+     * @param code  a UPC-A code
+     */
     public void setUPCA(String code){
         if(isValidCode(code)){
             upca = code;
         }
     }
 
+    /**
+     * Returns the 11 digit product code
+     * @return  product code
+     */
     public String getProductCode(){
         return productCode;
     }
 
+    /**
+     * Evaluates whether a given code is valid or not
+     * @param code  a UPC-A code
+     * @return  true if code is valid, false otherwise
+     */
     public static boolean isValidCode(String code){
 
         //calculate the checksum
@@ -114,6 +139,10 @@ public class UPCADecoder {
         return true;
     }
 
+    /**
+     * Decodes a UPC-A code into an 11 digit product code
+     * @param code  UPC-A code to decode
+     */
     private void decodeUPCA(String code){
 
         for(int i = 3; i < 45; i+=7){
