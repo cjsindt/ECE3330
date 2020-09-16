@@ -9,10 +9,9 @@ public class MachineLearning {
      * @return  the cosine similarity (value between -1 and 1) if the cosine similarity can be calculated, 2 if otherwise
      */
     public double cosineSimilarity(double[] vector1, double[] vector2){
-        if(magnitude(vector1) != 0 && magnitude(vector2) != 0) {
+        if(magnitude(vector1) > 0 && magnitude(vector2) > 0 && dotProduct(vector1, vector2) != Double.MAX_VALUE) {
             return dotProduct(vector1, vector2) / (magnitude(vector1) * magnitude(vector2));
         } else {
-            System.out.println("Divide by 0 error.");
             return 2; //because 0 and -1 are valid values for cosine similarity, decided to return 2
         }
     }
@@ -66,19 +65,18 @@ public class MachineLearning {
      * Calculates the dot product (inner product) of two given vectors given as 2 arrays of doubles
      * @param vector1   an array of doubles for the 1st vector
      * @param vector2   an array of doubles for the 2nd vector
-     * @return  the dot product (inner product) of the two vectors
-     * @throws ArithmeticException  throws arithmetic exception if vectors do not match in length, either of their lengths are 0, or either of them are null
+     * @return  the dot product (inner product) of the two vectors if they are the same length and non-zero, Double.MAX_VALUE otherwise
      */
-    public double dotProduct(double[] vector1, double[] vector2){
+    private double dotProduct(double[] vector1, double[] vector2){
         //if given a null value or array of length 0, print error message
         if (vector1 == null || vector2 == null || vector1.length == 0 || vector2.length == 0){
             System.out.println("Vectors must have at least 1 value in them.");
-            return 0;
+            return Double.MAX_VALUE;
         }
         //if the vector lengths do not match, print error message
         else if(vector1.length != vector2.length){
             System.out.println("Vector lengths do not equal");
-            return 0;
+            return Double.MAX_VALUE;
         } else{
             double result = 0;
             //sum the products of each term in each vector
@@ -99,7 +97,7 @@ public class MachineLearning {
         //if given a null value or array of length 0, print error message
         if (vector == null || vector.length == 0){
             System.out.println("Vectors must have at least 1 value in them.");
-            return 0;
+            return -1;
         } else {
             double result = 0;
             //sum the squares of each term in the vector
