@@ -50,5 +50,4 @@ class MachineLearningTest {
         assertEquals(0, m.euclideanDistance(v2, v2)); //same vectors
 
     }
-
 }

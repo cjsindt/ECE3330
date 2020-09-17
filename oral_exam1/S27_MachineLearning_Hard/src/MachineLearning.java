@@ -1,4 +1,11 @@
+import java.io.*;
+import java.util.ArrayList;
 
+/**
+ * Class to implement different similarity functions as well as a K-Nearest Neighbor algorithm and K-Means Clustering algorithm
+ * @author cjsindt
+ * @version 1.0.0 17 SEPT 2020
+ */
 public class MachineLearning {
 
     /**
@@ -106,6 +113,93 @@ public class MachineLearning {
             }
             //return the square root of the sum of squares (distance formula)
             return Math.sqrt(result);
+        }
+    }
+
+    /**
+     * Classifies a given data point based on the provided dataset using K-Nearest Neighbors. Designed to run the included dataset (S27-MLMedium.csv)
+     * @param filePath  path to the dataset
+     * @param feats features of the new datapoint to classify
+     * @param k the k term
+     * @return  a string describing what class the point is classified to
+     */
+    public String kNearestNeighbors(String filePath, double[] feats, int k){
+
+        //input sanitization
+        if(feats != null  && feats.length == 5 && k > 0){
+
+            //stores the class value of each point in order of increasing distance
+            ArrayList<DataPoint> classes = new ArrayList<DataPoint>();
+            //stores features of each data point to compare
+            double[] features = new double[5];
+
+            //amount of points in in k that are classified as class1 or class2
+            int amtClass1 = 0;
+            int amtClass2 = 0;
+
+            try{
+                //create a new buffered reader
+                BufferedReader b = new BufferedReader(new FileReader(filePath));
+                //the current line read by the buffered reader
+                String currLine = "";
+                //an array to hold the split version of the current line
+                String[] splitCurrLine = new String[6];
+                //store the distance between current line and point
+                double distance = 0;
+                //parse doubles from each value in the split string
+                while((currLine = b.readLine()) != null){
+
+                    //split the line by commas
+                    splitCurrLine = currLine.split(",");
+
+                    //parse doubles
+                    for(int i = 0; i < 5; i++){
+                        features[i] = Double.parseDouble(splitCurrLine[i]);
+                    }
+
+                    //calculate euclidean distanc between points
+                    distance = euclideanDistance(features, feats);
+
+                    //if list is empty, add to the beginning
+                    if(classes.size() == 0){
+                        classes.add(new DataPoint(distance, splitCurrLine[5]));
+                    } else {
+                        //if there are elements, search for where the new datapoint sits
+                        for (int i = 0; i < classes.size() && i != -1; i++) {
+                            if (distance < classes.get(i).getDistance()) {
+                                classes.add(i, new DataPoint(distance, splitCurrLine[5]));
+                                i = -2;
+                            }
+                            //if reached end of list without adding, add datapoint to end
+                            else if(i == classes.size()-1){
+                                classes.add(new DataPoint(distance, splitCurrLine[5]));
+                                i = -2;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e){
+                //print exception details
+                e.printStackTrace();
+            }
+
+            //search through the first k entries (they will be the closest) and decide what to classify
+            for (int i = 0; i < k; i++) {
+                if (classes.get(i).getClassification().equals("\"class1\"")) {
+                    amtClass1++;
+                } else {
+                    amtClass2++;
+                }
+            }
+
+            if (amtClass1 >= amtClass2) {
+                return "New data point belongs to class1";
+            } else {
+                return "New data point belongs to class2";
+            }
+
+        } else {
+            return "Invalid Parameters.";
         }
     }
 }
