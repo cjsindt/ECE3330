@@ -2,11 +2,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MachineLearningTest {
+class MachineLearningJUnitTester {
+
+    MachineLearning m = new MachineLearning();
 
     @Test
     void cosineSimilarity() {
-        MachineLearning m = new MachineLearning();
         double[] v0 = {1,2,3};
         double[] v1 = {2,6,3};
         double[] v2 = {1,5,9,7};
@@ -21,7 +22,6 @@ class MachineLearningTest {
 
     @Test
     void hammingDistance() {
-        MachineLearning m = new MachineLearning();
         String s0 = "10101";
         String s1 = "10111";
         String s2 = "01010";
@@ -37,7 +37,6 @@ class MachineLearningTest {
 
     @Test
     void euclideanDistance() {
-        MachineLearning m = new MachineLearning();
         double[] v0 = {1,2,3};
         double[] v1 = {2,6,3};
         double[] v2 = {1,5,9,7};

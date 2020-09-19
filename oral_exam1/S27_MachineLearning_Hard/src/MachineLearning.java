@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Class to implement different similarity functions as well as a K-Nearest Neighbor algorithm and K-Means Clustering algorithm
@@ -143,7 +143,7 @@ public class MachineLearning {
                 //the current line read by the buffered reader
                 String currLine = "";
                 //an array to hold the split version of the current line
-                String[] splitCurrLine = new String[6];
+                String[] splitCurrLine;
                 //store the distance between current line and point
                 double distance = 0;
                 //parse doubles from each value in the split string
@@ -157,7 +157,7 @@ public class MachineLearning {
                         features[i] = Double.parseDouble(splitCurrLine[i]);
                     }
 
-                    //calculate euclidean distanc between points
+                    //calculate euclidean distance between points
                     distance = euclideanDistance(features, feats);
 
                     //if list is empty, add to the beginning
@@ -201,5 +201,168 @@ public class MachineLearning {
         } else {
             return "Invalid Parameters.";
         }
+    }
+
+    /**
+     * Classifies data points into k clusters using K-Means Clustering.
+     * @param filePath  file path to data set
+     * @param k amount of clusters
+     */
+    public void kMeansClustering(String filePath, int k){
+        //null check
+        if(filePath != null && k > 0){
+
+            //stores the data points for processing later
+            ArrayList<double[]> points = new ArrayList<>();
+
+
+            //STEP 1: read in data
+            try{
+                //make a new buffered reader
+                BufferedReader b = new BufferedReader(new FileReader(filePath));
+                //the current line being read
+                String currLine = "";
+
+                //stores the current line split by commas
+                String[] currLineSplit;
+
+                //read every line
+                while((currLine = b.readLine()) != null){
+                    //store the split line
+                    currLineSplit = currLine.split(",");
+                    //parse doubles from the split line and store it in the list of points
+                    points.add(new double[]{Double.parseDouble(currLineSplit[0]), Double.parseDouble(currLineSplit[1])});
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+                return;
+            }
+
+
+            //STEP 2: determine centroids
+
+            //int array of indices of the centroids
+            List<double[]> centroids = new ArrayList<>();
+
+            int[] prevKeys = new int[k];
+
+            //the key value to store
+            int key;
+
+            //generate random numbers until k distinct numbers have been added to centroids
+            for(int i = 0; i < k; i++){
+                key = (int) (Math.random() * (points.size()));
+                while (isIn(prevKeys, key)) {
+                    key = (int) (Math.random() * (points.size()));
+                }
+                prevKeys[i] = key;
+                centroids.add(points.get(key));
+            }
+
+            //a list of lists of points to represent clusters :)
+            List<List<double[]>> clusters = new ArrayList<>();
+
+            //shortest distance calculated thus far for each point
+            int shortDistIndex;
+
+            //calculate the new centroid and compare to old centroid
+            double[] newCentroid = new double[2];
+
+            //if a centroid changes, we must do this process again until no centroids change
+            boolean deltaCentroid = true;
+
+            while(deltaCentroid) {
+                //STEP 3: assign each point to a centroid
+
+                //add nested arraylists for each cluster
+                for (int i = 0; i < k; i++) {
+                    clusters.add(new ArrayList<double[]>());
+                }
+
+                //go through each point
+                for (double[] p : points) {
+                    //assume the closest centroid is the one at index 0
+                    shortDistIndex = 0;
+                    //loop through the other centroids
+                    for (int i = 1; i < k; i++) {
+                        //if the distance from the i'th centroid is closer than the one at shortDistIndex, set shortDistIndex to i
+                        if (euclideanDistance(centroids.get(i), p) < euclideanDistance(centroids.get(shortDistIndex), p)) {
+                            shortDistIndex = i;
+                        }
+                    }
+                    //add the point to the proper cluster
+                    clusters.get(shortDistIndex).add(p);
+                }
+
+
+                //STEP 4: find the mean of each cluster
+
+                //assume no centroids change
+                deltaCentroid = false;
+
+                //loop through each cluster
+                for (int i = 0; i < k; i++) {
+                    //loop through each point in each cluster
+                    for (int j = 0; j < clusters.get(i).size(); j++) {
+                        //sum the data points in each cluster to find the mean
+                        newCentroid[0] += clusters.get(i).get(j)[0];
+                        newCentroid[1] += clusters.get(i).get(j)[1];
+                    }
+                    //divide by the amount of points in the cluster to find the mean
+                    newCentroid[0] = newCentroid[0] / clusters.get(i).size();
+                    newCentroid[1] = newCentroid[1] / clusters.get(i).size();
+
+                    //if we haven't found a different centroid yet, check to see if they differ
+                    if (!deltaCentroid) {
+                        //if the points differ, we have a changed centroid
+                        if (newCentroid[0] != centroids.get(i)[0] && newCentroid[1] != centroids.get(i)[1]) {
+                            deltaCentroid = true;
+                        }
+                    }
+
+                    //System.out.println("\nCentroid " + i);
+                    //System.out.println("Old Centroid: " + Arrays.toString(centroids.get(i)));
+
+                    //replace current centroid
+                    centroids.set(i, newCentroid.clone());
+
+                    //System.out.println("New Centroid: " + Arrays.toString(newCentroid));
+
+                    newCentroid[0] = 0;
+                    newCentroid[1] = 0;
+
+
+                }
+
+                //if iterating again, clear the clusters
+                if(deltaCentroid){
+                    clusters.clear();
+                }
+            }
+
+            for(int i = 0; i < k; i++){
+                System.out.println(String.format("Cluster%s: %s data points", i, clusters.get(i).size()));
+            }
+
+
+        } else {
+            System.out.println("Please provide valid parameters.");
+        }
+    }
+
+    /**
+     * Checks if the given value i is in the given array nums. For use in kMeansClustering
+     * @param nums  the array to check
+     * @param i the value to check
+     * @return  true if i is in nums, false otherwise
+     */
+    private boolean isIn(int[] nums, int i){
+        for(int x:nums){
+            if(i == x){
+                return true;
+            }
+        }
+        return false;
     }
 }
