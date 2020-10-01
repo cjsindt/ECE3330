@@ -82,7 +82,7 @@ public class ArabicToRomanGUI extends JFrame {
 
         //make it visible and pack
         setVisible(true);
-        pack();
+        setSize(200,200);
     }
 
     /**
