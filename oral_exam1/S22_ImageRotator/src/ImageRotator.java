@@ -141,7 +141,7 @@ public class ImageRotator extends JFrame{
          */
         public FrogLabel(BufferedImage img){
             image = img;
-            setIcon(new ImageIcon(img));
+            setIcon(new ImageIcon(rotateImage(0)));
         }
 
         /**
