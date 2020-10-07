@@ -75,12 +75,8 @@ public class BaseConverter extends JFrame {
         outputTextField.setEditable(false);
 
         //read in images
-        try{
-            tomatoFrog = new ImageIcon(ImageIO.read(new File("/iahome/c/cj/cjsindt/Desktop/cjsindt_swd/oral_exam1/S29_BaseChangeGUI_Medium/src/tomatofrog.jpeg")));
-            tomatoFrogAngry = new ImageIcon(ImageIO.read(new File("/iahome/c/cj/cjsindt/Desktop/cjsindt_swd/oral_exam1/S29_BaseChangeGUI_Medium/src/tomatofrogangry.jpeg")));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        tomatoFrog = new ImageIcon(getClass().getResource("tomatofrog.jpeg"));
+        tomatoFrogAngry = new ImageIcon(getClass().getResource("tomatofrogangry.jpeg"));
 
         //make convert button and set its icon
         convertButton = new JButton();
