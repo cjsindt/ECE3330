@@ -131,9 +131,9 @@ public class ImageRotator extends JFrame{
          */
         BufferedImage image;
 
-        //private final int width = image.getWidth();
+        private int width = 0;
 
-        //private final int height = image.getHeight();
+        private int height = 0;
 
         /**
          * Constructor that sets the image to the given BufferedImage
@@ -141,7 +141,9 @@ public class ImageRotator extends JFrame{
          */
         public FrogLabel(BufferedImage img){
             image = img;
-            setIcon(new ImageIcon(rotateImage(0)));
+            setIcon(new ImageIcon(img));
+            width = image.getWidth();
+            height = image.getHeight();
         }
 
         /**
@@ -159,26 +161,29 @@ public class ImageRotator extends JFrame{
          * @return  the rotated BufferedImage
          */
         public BufferedImage rotateImage(double angle){
-            int height = image.getHeight();
-            int width = image.getWidth();
+            //int height = image.getHeight();
+            //int width = image.getWidth();
             double theta = Math.toRadians(angle);
+
+            int newH = (int)Math.floor(image.getHeight() * Math.abs(Math.cos(theta)) + image.getWidth() * Math.abs(Math.sin(theta)));
+            int newW = (int)Math.floor(image.getWidth() * Math.abs(Math.sin(theta)) + image.getHeight() * Math.abs(Math.cos(theta)));
 
             //TODO: Fix Circle Problem (Converges to Circle, problem with Graphics bounds. Don't know what the math is)
 
             //resulting image should be same as original in terms of type and size
-            BufferedImage result = new BufferedImage(width, height, image.getType());
+            BufferedImage result = new BufferedImage(newW, newH, image.getType());
 
             //turn the BufferedImage into a Graphics2D which can do rotations
             Graphics2D g = result.createGraphics();
 
             //rotate the newly made Graphics2D about the center of the image
             //rotate with translation otherwise it will rotate about the top-left corner
-            g.rotate(theta, width/2.0,height/2.0);
+            g.rotate(theta, result.getWidth()/2.0,result.getHeight()/2.0);
 
-            //g.setClip(0, 0, width*2, height*2);
+            //draw the new image
+            g.drawRenderedImage(image, null);
 
-            //draw the new image, don't care about any filters
-            g.drawImage(image, null, 0, 0);
+            image = result;
 
             //done with the graphics so free up memory
             g.dispose();
