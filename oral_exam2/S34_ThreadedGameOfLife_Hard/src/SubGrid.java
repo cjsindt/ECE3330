@@ -11,6 +11,10 @@ public class SubGrid extends JPanel implements Runnable{
 
     private final int position;
 
+    private SubGrid neighborOne;
+
+    private SubGrid neighborTwo;
+
     @Override
     public void run() {
 
@@ -19,10 +23,11 @@ public class SubGrid extends JPanel implements Runnable{
     public SubGrid(int pos){
         super();
         position = pos;
-        prevState = new boolean[size][size];
+        prevState = new boolean[size+2][size+2]; //add a buffer ring to make comparisons easier
+        nextState = new boolean[size+2][size+2];
 
-        for(int i = 0; i < size; i++){
-            for(int j = i%2; j < size; j+=2){
+        for(int i = 1; i < size; i++){
+            for(int j = (i%2)+1; j < size; j+=2){
                 //if(i == j){
                     prevState[i][j] = true;
                 //}
@@ -37,9 +42,9 @@ public class SubGrid extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        //loop through each square in the squares 2d array
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
+        //loop through each square in the squares 2d array except buffer ring
+        for(int i = 1; i < size+1; i++){
+            for(int j = 1; j < size+1; j++){
                 if(prevState[i][j]) {
                     g.fillRect(i * 10, j * 10, 10,  10); //draw squares everywhere there is a 1
                 }
@@ -49,5 +54,57 @@ public class SubGrid extends JPanel implements Runnable{
 
     public static int getDimension(){
         return size;
+    }
+
+    public int getPosition(){
+        return position;
+    }
+
+    public void setNeighborOne(SubGrid s){
+        neighborOne = s;
+    }
+
+    public void setNeighborTwo(SubGrid s){
+        neighborTwo = s;
+    }
+
+    public boolean[][] getPrevState(){
+        return prevState;
+    }
+
+    public void generate(){
+        int numNeighbors = 0; //number of neighbors around a cell
+        switch(position) {
+            case 0:
+                for (int i = 1; i < size + 1; i++) {
+                    prevState[size + 2][i] = neighborTwo.getPrevState()[1][i]; //the bottom row equals the top row of the SubGrid below it
+                    prevState[i][size + 2] = neighborOne.getPrevState()[i][1]; //column on right equals the column on the left of it's left neighbor1
+                }
+                break;
+            case 1:
+
+        }
+
+        //compare neighbors
+        for (int i = 1; i < size + 1; i++) {
+            for (int j = 1; j < size + 1; j++) {
+                numNeighbors = (prevState[i - 1][j - 1]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i - 1][j]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i - 1][j + 1]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i][j - 1]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i][j + 1]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i + 1][j - 1]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i + 1][j]) ? numNeighbors + 1 : numNeighbors;
+                numNeighbors = (prevState[i + 1][j + 1]) ? numNeighbors + 1 : numNeighbors;
+
+                //rules of the game of life
+                if (prevState[i][j] && (numNeighbors == 2 || numNeighbors == 3)) {
+                    nextState[i][j] = true;
+                } else nextState[i][j] = !prevState[i][j] && numNeighbors == 3;
+
+                numNeighbors = 0;
+            }
+        }
+
     }
 }
