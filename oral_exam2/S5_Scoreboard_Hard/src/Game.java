@@ -29,6 +29,14 @@ public abstract class Game {
         awayTeam = away;
     }
 
+    public Team getHomeTeam(){
+        return homeTeam;
+    }
+
+    public Team getAwayTeam(){
+        return awayTeam;
+    }
+
     public void addScore(ScoringMethod score, Team team){
         team.addScore(score.getValue());
     }
