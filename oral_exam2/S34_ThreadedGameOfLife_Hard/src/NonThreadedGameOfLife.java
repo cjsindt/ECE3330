@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class NonThreadedGameOfLife extends JPanel{
 
-    private final int size = 40;
+    private final int size = 60;
 
     private boolean[][] p;
 
@@ -63,7 +63,7 @@ public class NonThreadedGameOfLife extends JPanel{
         for(int i = 1; i < size+1; i++){
             for(int j = 1; j < size+1; j++){
                 if(p[i][j]) {
-                    g.fillRect(i * 10, j * 10, 10,  10); //draw squares everywhere there is a 1
+                    g.fillRect(j * 10, i * 10, 10,  10); //draw squares everywhere there is a 1
                 }
             }
         }

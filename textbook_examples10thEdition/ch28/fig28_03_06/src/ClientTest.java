@@ -1,4 +1,4 @@
-// Fig. 28.6: ClientTest.java
+//Fig. 28.6: ClientTest.java
 // Class that tests the Client.
 
 import javax.swing.*;

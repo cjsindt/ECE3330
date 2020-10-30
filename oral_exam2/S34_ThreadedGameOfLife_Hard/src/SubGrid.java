@@ -82,7 +82,22 @@ public class SubGrid extends JPanel implements Runnable{
                 }
                 break;
             case 1:
-
+                for(int i = 1; i < size+1; i++){
+                    prevState[i][0] = neighborOne.getPrevState()[i][size+1];
+                    prevState[size+2][i] = neighborTwo.getPrevState()[1][i];
+                }
+                break;
+            case 2:
+                for(int i = 1; i < size+1; i++){
+                    prevState[0][i] = neighborOne.getPrevState()[size+1][i];
+                    prevState[i][size+2] = neighborTwo.getPrevState()[i][1];
+                }
+                break;
+            case 3:
+                for(int i = 1; i < size+1; i++){
+                    prevState[0][i] = neighborOne.getPrevState()[size+1][i];
+                    prevState[i][0] = neighborTwo.getPrevState()[i][size+1];
+                }
         }
 
         //compare neighbors
