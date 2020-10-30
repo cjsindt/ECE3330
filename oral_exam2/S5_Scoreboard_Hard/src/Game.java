@@ -1,4 +1,4 @@
-public class Game {
+public abstract class Game {
 
     /**
      * The home team
@@ -11,7 +11,7 @@ public class Game {
     /**
      * The current period of the game.
      */
-    private int period;
+    private int period = 1;
 
     /**
      * Array of all the different scoring methods.
@@ -22,6 +22,11 @@ public class Game {
         homeTeam = home;
         awayTeam = away;
         period = 0;
+    }
+
+    public void setTeams(Team home, Team away){
+        homeTeam = home;
+        awayTeam = away;
     }
 
     public void addScore(ScoringMethod score, Team team){
@@ -35,4 +40,31 @@ public class Game {
     public ScoringMethod[] getScoringMethods(){
         return scoringMethods;
     }
+
+    public int getPeriod(){
+        return period;
+    }
+
+    public void endPeriod(){
+        period++;
+    }
+
+    public void startGame(){
+        period = 1;
+    }
+
+    /**
+     * Returns whichever team has the higher score. Home team wins ties.
+     * @return  the team with the greater score
+     */
+    public Team winner(){
+        return (homeTeam.getScore() >= awayTeam.getScore()) ? homeTeam : awayTeam;
+    }
+
+    abstract boolean isGameOver();
+
+    abstract String getPeriodName();
+
+    abstract String getPeriodLength();
+
 }
