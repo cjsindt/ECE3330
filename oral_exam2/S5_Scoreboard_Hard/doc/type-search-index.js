@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"AmericanFootball"},{"p":"<Unnamed>","l":"Basketball"},{"p":"<Unnamed>","l":"Football"},{"p":"<Unnamed>","l":"Game"},{"p":"<Unnamed>","l":"GameDriver"},{"p":"<Unnamed>","l":"Hockey"},{"p":"<Unnamed>","l":"ScoringMethod"},{"p":"<Unnamed>","l":"Team"}]
