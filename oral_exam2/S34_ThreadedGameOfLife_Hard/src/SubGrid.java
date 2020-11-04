@@ -15,9 +15,16 @@ public class SubGrid extends JPanel implements Runnable{
 
     private SubGrid neighborTwo;
 
+    private boolean isDone = false;
+
     @Override
     public void run() {
+        this.generate();
+        while(!areNeighborsDone()){
 
+        }
+        this.updateGeneration();
+        this.repaint();
     }
 
     public SubGrid(int pos){
@@ -72,31 +79,31 @@ public class SubGrid extends JPanel implements Runnable{
         return prevState;
     }
 
-    public void generate(){
+    public synchronized void generate() {
         int numNeighbors = 0; //number of neighbors around a cell
-        switch(position) {
+        switch (position) {
             case 0:
                 for (int i = 1; i < size + 1; i++) {
-                    prevState[size + 2][i] = neighborTwo.getPrevState()[1][i]; //the bottom row equals the top row of the SubGrid below it
-                    prevState[i][size + 2] = neighborOne.getPrevState()[i][1]; //column on right equals the column on the left of it's left neighbor1
+                    prevState[size + 1][i] = neighborTwo.getPrevState()[1][i]; //the bottom row equals the top row of the SubGrid below it
+                    prevState[i][size + 1] = neighborOne.getPrevState()[i][1]; //column on right equals the column on the left of it's left neighbor1
                 }
                 break;
             case 1:
-                for(int i = 1; i < size+1; i++){
-                    prevState[i][0] = neighborOne.getPrevState()[i][size+1];
-                    prevState[size+2][i] = neighborTwo.getPrevState()[1][i];
+                for (int i = 1; i < size + 1; i++) {
+                    prevState[i][0] = neighborOne.getPrevState()[i][size + 1];
+                    prevState[size + 1][i] = neighborTwo.getPrevState()[1][i];
                 }
                 break;
             case 2:
-                for(int i = 1; i < size+1; i++){
-                    prevState[0][i] = neighborOne.getPrevState()[size+1][i];
-                    prevState[i][size+2] = neighborTwo.getPrevState()[i][1];
+                for (int i = 1; i < size + 1; i++) {
+                    prevState[0][i] = neighborOne.getPrevState()[size + 1][i];
+                    prevState[i][size + 1] = neighborTwo.getPrevState()[i][1];
                 }
                 break;
             case 3:
-                for(int i = 1; i < size+1; i++){
-                    prevState[0][i] = neighborOne.getPrevState()[size+1][i];
-                    prevState[i][0] = neighborTwo.getPrevState()[i][size+1];
+                for (int i = 1; i < size + 1; i++) {
+                    prevState[0][i] = neighborOne.getPrevState()[size + 1][i];
+                    prevState[i][0] = neighborTwo.getPrevState()[i][size + 1];
                 }
         }
 
@@ -121,5 +128,21 @@ public class SubGrid extends JPanel implements Runnable{
             }
         }
 
+        isDone = true;
     }
+
+    public void updateGeneration(){
+        prevState = nextState;
+        isDone = false;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public boolean areNeighborsDone(){
+        return isDone() && neighborOne.isDone() && neighborTwo.isDone();
+    }
+
 }
+
