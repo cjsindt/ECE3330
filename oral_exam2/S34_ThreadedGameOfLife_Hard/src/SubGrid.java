@@ -15,16 +15,25 @@ public class SubGrid extends JPanel implements Runnable{
 
     private SubGrid neighborTwo;
 
+    private SubGrid nonNeighborGrid;
+
     private boolean isDone = false;
 
     @Override
     public void run() {
-        this.generate();
-        while(!areNeighborsDone()){
-
+        while(true){
+            generate();
+            while(isDone && !areNeighborsDone()){
+                try {
+                    Thread.currentThread().wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Thread.currentThread().notifyAll();
+            }
+            updateGeneration();
+            repaint();
         }
-        this.updateGeneration();
-        this.repaint();
     }
 
     public SubGrid(int pos){
@@ -33,15 +42,15 @@ public class SubGrid extends JPanel implements Runnable{
         prevState = new boolean[size+2][size+2]; //add a buffer ring to make comparisons easier
         nextState = new boolean[size+2][size+2];
 
-        for(int i = 1; i < size; i++){
-            for(int j = (i%2)+1; j < size; j+=2){
+        for(int i = 1; i < size+1; i++){
+            for(int j = (i%2)+1; j < size+1; j+=2){
                 //if(i == j){
                     prevState[i][j] = true;
                 //}
             }
         }
 
-        setSize(size, size);
+        setSize(size*10, size*10);
         setBackground(Color.WHITE);
     }
 
@@ -53,7 +62,7 @@ public class SubGrid extends JPanel implements Runnable{
         for(int i = 1; i < size+1; i++){
             for(int j = 1; j < size+1; j++){
                 if(prevState[i][j]) {
-                    g.fillRect(i * 10, j * 10, 10,  10); //draw squares everywhere there is a 1
+                    g.fillRect((i-1) * 10, (j-1) * 10, 10,  10); //draw squares everywhere there is a 1
                 }
             }
         }
@@ -74,6 +83,8 @@ public class SubGrid extends JPanel implements Runnable{
     public void setNeighborTwo(SubGrid s){
         neighborTwo = s;
     }
+
+    public void setOtherNeighbor(SubGrid s){nonNeighborGrid = s;}
 
     public boolean[][] getPrevState(){
         return prevState;
@@ -141,7 +152,11 @@ public class SubGrid extends JPanel implements Runnable{
     }
 
     public boolean areNeighborsDone(){
-        return isDone() && neighborOne.isDone() && neighborTwo.isDone();
+        return isDone() && neighborOne.isDone() && neighborTwo.isDone() && nonNeighborGrid.isDone();
+    }
+
+    public static int getSizeOfSubgrid(){
+        return size;
     }
 
 }

@@ -3,6 +3,18 @@ import java.awt.*;
 
 public class NonThreadedGameOfLife extends JPanel{
 
+    public static void main(String[] args){
+        NonThreadedGameOfLife g = new NonThreadedGameOfLife();
+        JFrame j = new JFrame();
+        j.getContentPane().add(g);
+        j.setVisible(true);
+        j.pack();
+        while(true) {
+            g.generate();
+            g.repaint();
+        }
+    }
+
     private final int size = 60;
 
     private boolean[][] p;
@@ -51,7 +63,7 @@ public class NonThreadedGameOfLife extends JPanel{
         p[4][35] = true;
         p[4][36] = true;
 
-        setSize(size, size);
+        setPreferredSize(new Dimension(size, size));
         setBackground(Color.WHITE);
     }
 

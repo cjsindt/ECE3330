@@ -19,12 +19,19 @@ public class GameOfLife extends JFrame{
         //assign neighbors
         g0.setNeighborOne(g1);
         g0.setNeighborTwo(g2);
+        g0.setOtherNeighbor(g3);
+
         g1.setNeighborOne(g0);
         g1.setNeighborTwo(g3);
+        g1.setOtherNeighbor(g2);
+
         g2.setNeighborOne(g0);
         g2.setNeighborTwo(g3);
+        g2.setOtherNeighbor(g1);
+
         g3.setNeighborOne(g1);
         g3.setNeighborTwo(g2);
+        g3.setOtherNeighbor(g0);
 
         getContentPane().add(g0);
         getContentPane().add(g1);
