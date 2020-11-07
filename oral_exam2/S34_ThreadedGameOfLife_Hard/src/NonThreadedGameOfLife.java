@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A nonthreaded version of the Game of Life pre-programmed to show gosper's glider gun.
+ */
 public class NonThreadedGameOfLife extends JPanel{
 
     public static void main(String[] args){
@@ -15,12 +18,24 @@ public class NonThreadedGameOfLife extends JPanel{
         }
     }
 
+    /**
+     * The size of the panel in cells
+     */
     private final int size = 60;
 
+    /**
+     * Boolean representation of the game
+     */
     private boolean[][] p;
 
+    /**
+     * The next state of the game
+     */
     private boolean[][] nextState;
 
+    /**
+     * Constructor that programs Gosper's glider gun into the JPanel and makes a new JPanel
+     */
     public NonThreadedGameOfLife(){
         super();
         p = new boolean[size+2][size+2];
@@ -67,6 +82,10 @@ public class NonThreadedGameOfLife extends JPanel{
         setBackground(Color.WHITE);
     }
 
+    /**
+     * Paints cells onto the JPanel depending on what cells are alive
+     * @param g graphics object to draw with
+     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -82,6 +101,9 @@ public class NonThreadedGameOfLife extends JPanel{
         //generate();
     }
 
+    /**
+     * Generates the next iteration of the game depending on the current cell states.
+     */
     public void generate() {
         int numNeighbors = 0;
         //compare neighbors

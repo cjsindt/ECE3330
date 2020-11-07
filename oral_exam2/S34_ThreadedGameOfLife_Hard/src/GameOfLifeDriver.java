@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-public class GameOfLifeDriver implements Runnable{
+/**
+ * Main driver class for the game of life. Creates and runs the threads and generates a JFrame to show the operations.
+ */
+public class GameOfLifeDriver{
     public static void main(String[] args) throws InterruptedException{
         //GameOfLife g = new GameOfLife();
         //NonThreadedGameOfLife g = new NonThreadedGameOfLife();
@@ -16,30 +18,36 @@ public class GameOfLifeDriver implements Runnable{
         j.setResizable(false);
         j.setVisible(true);
 
+        //make a new thread pool
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        SubGrid g0 = new SubGrid(0);
-        SubGrid g1 = new SubGrid(1);
-        SubGrid g2 = new SubGrid(2);
-        SubGrid g3 = new SubGrid(3);
+        //new shared int class for the subgrids
+        SharedInt s = new SharedInt();
+
+        //make the new subgrids
+        SubGrid g0 = new SubGrid(0, s);
+        SubGrid g1 = new SubGrid(1, s);
+        SubGrid g2 = new SubGrid(2, s);
+        SubGrid g3 = new SubGrid(3, s);
 
         //assign neighbors
         g0.setNeighborOne(g1);
         g0.setNeighborTwo(g2);
-        g0.setOtherNeighbor(g3);
+
 
         g1.setNeighborOne(g0);
         g1.setNeighborTwo(g3);
-        g1.setOtherNeighbor(g2);
+
 
         g2.setNeighborOne(g0);
         g2.setNeighborTwo(g3);
-        g2.setOtherNeighbor(g1);
+
 
         g3.setNeighborOne(g1);
         g3.setNeighborTwo(g2);
-        g3.setOtherNeighbor(g0);
 
+
+        //add everything to the JFrame
         j.getContentPane().add(g0);
         j.getContentPane().add(g1);
         j.getContentPane().add(g2);
@@ -47,18 +55,14 @@ public class GameOfLifeDriver implements Runnable{
 
         j.pack();
 
+        //run the threads
         executorService.execute(g0);
         executorService.execute(g1);
         executorService.execute(g2);
         executorService.execute(g3);
-//
 
-
-        
-    }
-
-    @Override
-    public void run() {
+        executorService.shutdown();
 
     }
+
 }
