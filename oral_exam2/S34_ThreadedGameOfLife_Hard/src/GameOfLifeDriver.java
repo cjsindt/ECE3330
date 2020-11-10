@@ -13,8 +13,7 @@ public class GameOfLifeDriver{
         JFrame j = new JFrame("Game");
         j.setLayout(new GridLayout(2,2));
         j.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        int size = SubGrid.getSizeOfSubgrid();
-        j.getContentPane().setPreferredSize(new Dimension(size*20, size*20));
+        j.getContentPane().setPreferredSize(new Dimension(400, 400));
         j.setResizable(false);
         j.setVisible(true);
 

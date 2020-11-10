@@ -1,29 +1,37 @@
+import javax.swing.*;
+import java.awt.*;
 import java.security.SecureRandom;
 
 /**
- * A shared int class between each subgrid to tell when they are able to continue with their operations.
+ * A class that stores the data for the game of life in one shared class.
  */
 public class SharedData {
 
+    /**
+     * The game board
+     */
     private boolean[][] data;
 
-    private final static int size = 40;
     /**
-     * A random number generator
+     * The size of the game board in cells
      */
-    private static final SecureRandom generator = new SecureRandom();
+    private final static int size = 40;
 
     /**
-     * The shared integer itself
+     * The read counter
      */
     private int readCount = 0;
 
     /**
-     *
+     * The write counter
      */
     private int writeCount = 0;
 
+    /**
+     * Constructor that initializes read and write count to 0 and creates a new game board preloaded with Gosper's Glider Gun.
+     */
     public SharedData(){
+
         readCount = 0;
         writeCount = 0;
         data = new boolean[size][size];
@@ -66,6 +74,12 @@ public class SharedData {
         data[4][36] = true;
     }
 
+    /**
+     * Reads the data and returns a portion of the game board depending on which thread is reading
+     * @param offsetX   the thread's X offset on the game board
+     * @param offsetY   the threads Y offset on the game board
+     * @return  the portion of the game board specific to the thread calling it
+     */
     public synchronized boolean[][] readData(int offsetX, int offsetY) {
 
         //only read if all other threads are done writing
@@ -85,9 +99,11 @@ public class SharedData {
             for(int j = 1; j < temp.length-1; j++){
                 temp[i][j] = data[i+(offsetX * (size/2))-1][j+(offsetY * (size/2))-1];
             }
+            temp[(temp.length - 1 + offsetX) % (temp.length)][i] = data[(size/2) - offsetX][(i-1) + (offsetY * (size/2))];
+            temp[i][(temp.length - 1 + offsetY) % (temp.length)] = data[(i-1) + (offsetX * (size/2))][(size/2) - offsetY];
         }
 
-        temp[((temp.length/2) - 1 + offsetX) % temp.length] = data[(size/2) - offsetX].clone();
+        //temp[((temp.length/2) - 1 + offsetX) % temp.length][i] = data[(size/2) - offsetX][i-1];
 
 
         //increment the read counter
@@ -101,6 +117,12 @@ public class SharedData {
         return temp;
     }
 
+    /**
+     * Writes the data from a thread to the game board
+     * @param offsetX   the thread's X offset on the game board
+     * @param offsetY   the thread's Y offset on the game board
+     * @param d the data to write
+     */
     public synchronized void writeData(int offsetX, int offsetY, boolean[][] d){
 
         //only write if all threads are done reading
@@ -128,40 +150,12 @@ public class SharedData {
         }
     }
 
-    public int getSize(){
+    /**
+     * Returns the size of the game board
+     * @return
+     */
+    public int getGameSize(){
         return size;
     }
 
-    /**
-     * Adds one to the integer after sleeping the thread
-     */
-    public synchronized void addA(){
-        try {
-            // put thread to sleep for 0-499 milliseconds
-            Thread.sleep(generator.nextInt(500));
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt(); // re-interrupt the thread
-        }
-        readCount++;
-    }
-
-    public synchronized void addB(){
-        try {
-            // put thread to sleep for 0-499 milliseconds
-            Thread.sleep(generator.nextInt(500));
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt(); // re-interrupt the thread
-        }
-        writeCount++;
-    }
-
-    /**
-     * Returns the interger value shared
-     * @return  the shared integer's value
-     */
-    public int getA(){
-        return readCount;
-    }
-
-    public int getB() { return writeCount; }
 }
