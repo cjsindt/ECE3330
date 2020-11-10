@@ -39,7 +39,7 @@ public class SubGrid extends JPanel implements Runnable{
     /**
      * The shared int between the different subgrids
      */
-    private final SharedInt share;
+    private final SharedData share;
 
 
     /**
@@ -49,7 +49,7 @@ public class SubGrid extends JPanel implements Runnable{
     public void run() {
         //while(true){
             generate();
-            while(share.getS()%4 != 0) {
+            while(share.getA()%4 != 0) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -57,7 +57,9 @@ public class SubGrid extends JPanel implements Runnable{
                 }
             }
             updateGeneration();
-            repaint();
+            while(share.getB()%4 != 0) {
+                repaint();
+            }
         }
     //}
 
@@ -66,7 +68,7 @@ public class SubGrid extends JPanel implements Runnable{
      * @param pos   the relative position
      * @param s the shared int between all subgrids
      */
-    public SubGrid(int pos, SharedInt s){
+    public SubGrid(int pos, SharedData s){
         super();
         position = pos;
         prevState = new boolean[size+2][size+2]; //add a buffer ring to make comparisons easier
@@ -143,6 +145,7 @@ public class SubGrid extends JPanel implements Runnable{
                 }
             }
         }
+        share.addB();
     }
 
     /**
@@ -237,7 +240,7 @@ public class SubGrid extends JPanel implements Runnable{
             }
         }
 
-        share.add();
+        share.addA();
 
     }
 

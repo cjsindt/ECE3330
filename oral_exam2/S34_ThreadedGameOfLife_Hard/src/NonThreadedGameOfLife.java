@@ -6,13 +6,14 @@ import java.awt.*;
  */
 public class NonThreadedGameOfLife extends JPanel{
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         NonThreadedGameOfLife g = new NonThreadedGameOfLife();
         JFrame j = new JFrame();
         j.getContentPane().add(g);
         j.setVisible(true);
         j.pack();
         while(true) {
+            Thread.sleep(100);
             g.generate();
             g.repaint();
         }

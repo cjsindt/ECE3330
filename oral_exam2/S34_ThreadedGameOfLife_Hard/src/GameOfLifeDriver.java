@@ -22,29 +22,34 @@ public class GameOfLifeDriver{
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         //new shared int class for the subgrids
-        SharedInt s = new SharedInt();
+        SharedData s = new SharedData();
+
+        SubCell g0 = new SubCell(0, 0, s);
+        SubCell g1 = new SubCell(0, 1, s);
+        SubCell g2 = new SubCell(1, 0, s);
+        SubCell g3 = new SubCell(1, 1, s);
 
         //make the new subgrids
-        SubGrid g0 = new SubGrid(0, s);
-        SubGrid g1 = new SubGrid(1, s);
-        SubGrid g2 = new SubGrid(2, s);
-        SubGrid g3 = new SubGrid(3, s);
+//        SubGrid g0 = new SubGrid(0, s);
+//        SubGrid g1 = new SubGrid(1, s);
+//        SubGrid g2 = new SubGrid(2, s);
+//        SubGrid g3 = new SubGrid(3, s);
 
         //assign neighbors
-        g0.setNeighborOne(g1);
-        g0.setNeighborTwo(g2);
-
-
-        g1.setNeighborOne(g0);
-        g1.setNeighborTwo(g3);
-
-
-        g2.setNeighborOne(g0);
-        g2.setNeighborTwo(g3);
-
-
-        g3.setNeighborOne(g1);
-        g3.setNeighborTwo(g2);
+//        g0.setNeighborOne(g1);
+//        g0.setNeighborTwo(g2);
+//
+//
+//        g1.setNeighborOne(g0);
+//        g1.setNeighborTwo(g3);
+//
+//
+//        g2.setNeighborOne(g0);
+//        g2.setNeighborTwo(g3);
+//
+//
+//        g3.setNeighborOne(g1);
+//        g3.setNeighborTwo(g2);
 
 
         //add everything to the JFrame
