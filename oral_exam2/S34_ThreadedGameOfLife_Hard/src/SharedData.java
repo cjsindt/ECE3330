@@ -83,7 +83,7 @@ public class SharedData {
     public synchronized boolean[][] readData(int offsetX, int offsetY) {
 
         //only read if all other threads are done writing
-        if(writeCount %4 != 0){
+        while(writeCount %4 != 0){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -110,9 +110,9 @@ public class SharedData {
         readCount++;
 
         //if all threads are done reading, notify all threads
-        if(readCount %4 == 0){
+        //if(readCount %4 == 0){
             notifyAll();
-        }
+        //}
 
         return temp;
     }
@@ -126,7 +126,7 @@ public class SharedData {
     public synchronized void writeData(int offsetX, int offsetY, boolean[][] d){
 
         //only write if all threads are done reading
-        if(readCount % 4 != 0){
+        while(readCount % 4 != 0){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -145,9 +145,9 @@ public class SharedData {
         writeCount++;
 
         //if all threads are done writing, notify all threads
-        if(writeCount % 4 == 0){
+        //if(writeCount % 4 == 0){
             notifyAll();
-        }
+        //}
     }
 
     /**
