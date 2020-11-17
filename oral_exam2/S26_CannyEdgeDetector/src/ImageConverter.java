@@ -18,8 +18,8 @@ public class ImageConverter {
             width = img.getWidth();
             data = new int[height+2][width+2]; //instantiate the data array with a buffer row of zeroes around the outside
 
-            for(int i = 1; i < height+1; i++){ //sample each pixel and store it in the data array
-                for(int j = 1; j < width+1; j++){
+            for(int i = 1; i < width+1; i++){ //sample each pixel and store it in the data array
+                for(int j = 1; j < height+1; j++){
                     data[i][j] = img.getRGB(i-1, j-1);
                 }
             }
@@ -43,9 +43,9 @@ public class ImageConverter {
     }
 
     public BufferedImage generateImage(){
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++) {
+        BufferedImage img = new BufferedImage(width+2, height+2, BufferedImage.TYPE_BYTE_GRAY);
+        for(int i = 1; i < height+1; i++) {
+            for(int j = 1; j < width+1; j++) {
                 img.setRGB(i, j, data[i][j]);
             }
         }

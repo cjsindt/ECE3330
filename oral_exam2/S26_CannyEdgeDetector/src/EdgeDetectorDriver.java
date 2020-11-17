@@ -9,5 +9,12 @@ public class EdgeDetectorDriver {
         j0.getContentPane().add(new JLabel(new ImageIcon(img.generateImage())));
         j0.pack();
         j0.setVisible(true);
+
+        JFrame j1 = new JFrame("Vertical Edge Detection");
+        j1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        j1.getContentPane().add(new JLabel(new ImageIcon(EdgeDetector.detectVerticalEdges(img.getData(), img.getWidth(), img.getHeight()))));
+        j1.pack();
+        j1.setVisible(true);
     }
 }
