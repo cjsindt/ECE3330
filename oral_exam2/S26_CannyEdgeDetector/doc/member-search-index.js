@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"<Unnamed>","c":"EdgeDetector","l":"detectVerticalEdges(int[][], int, int)","url":"detectVerticalEdges(int[][],int,int)"},{"p":"<Unnamed>","c":"EdgeDetector","l":"EdgeDetector()","url":"%3Cinit%3E()"},{"p":"<Unnamed>","c":"EdgeDetector","l":"hysteresis(int[][], int, int)","url":"hysteresis(int[][],int,int)"}]
