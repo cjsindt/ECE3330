@@ -1,0 +1,74 @@
+Course Syllabus
+ECE:3330 Software Design
+
+Fall 2020 Syllabus
+
+All chapter references are to Dietel's Java How to Program 11ed (Chapters in parenthesis correspond to the 10ed)
+
+Course Policies and Grading Guidelines
+Instructor Information and Office Hours
+Chapter          Subject
+
+-                     Course introduction, HW, exams, syllabus, Websites
+
+1                    Reading Assignment
+
+2                    Intro to Java Applications, IntelliJ, Git
+
+3                    Intro to Classes and Objects
+
+4-6                 Overview of Methods in Java
+
+7                     Arrays and ArrayLists in Java
+
+================= End of Week 2 ================
+
+8                    Classes & Objects:  Deeper Look
+
+9                    Inheritance
+
+================= End of Week 4 ================
+
+SUPP      Unit Testing and JUnit
+
+26 (12)         GUIs (Swing-based)
+
+================= End of Week 6 ================
+
+10                   Polymorphism Pt 1
+
+Exam 1  (Oral) October 12-16, 2020 Code & JavaDoc comments locked 11:59PM, Friday, Oct 9th, 2020; Wiki can be edited until 11:59PM Sunday Oct 11th.
+
+10                   Polymorphism Pt 2
+
+11                   Exceptions
+
+23                   Multithreading (Concurrency)
+
+================= End of Week 9 ================
+
+15                   Files and Streams
+
+28                   Networking (this is a PDF chapter found on ICON)
+
+14                   Strings, Chars, and Reg-Expr
+
+16, 20, 21   Generics and Collections,
+
+================= End of Week 11 ================
+
+12 (25)         Java FX
+
+24                  JDBC
+
+================= End of Week 13 ================
+
+18, 19          Recursion, Searching Sorting and Big-O
+
+Exam 2 (Oral) Dec 7-Dec 11, 2020 Git-Repo code, JavaDocs, and Wikis locked 11:59PM, Thursday, Dec 3, 2020)
+
+--                    Challenge Presentations Dec 10, 2020
+
+Final Exam (Written): 12:30PM - 2:30PM 12/18/2020 Fri
+
+Challenge Problem:  We will also have a "challenge" problem assigned on Dec 2-4.  Students are required to work on it in groups of 2-3 students per group between Dec 4-6.  This assignment counts for 5% of your final grade. Note, each student should be responsible for at least one feature for each submission.  You will also provide a concise description of the features implemented for your submission.  The 3 "best" submissions (determined by the TAs) will present and describe their submissions with an in-class presentation (approx 10 mins).  Minimum requirement is to run a live demo – otherwise anything else is acceptable.  Students not presenting will rank each submission and presentation.  The top 3 presentations will be awarded additional extra credit bonuses of 30, 20, and 10% respectively.
